@@ -1,1 +1,1 @@
-from handlers.base import Handler
+from handlers.image import ImageHandler

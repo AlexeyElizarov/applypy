@@ -20,6 +20,7 @@ def read(path: str):
     """
 
     if exists(path):
+        # return Image()
         return Image(imread(path))
     else:
         raise FileNotFoundError
@@ -45,4 +46,4 @@ def write(path: str, image: Image) -> bool:
 
     chdir(dir_name)
 
-    return imwrite(file_name, image)
+    return imwrite(file_name, image.array)

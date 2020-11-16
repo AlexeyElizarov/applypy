@@ -1,1 +1,0 @@
-from handlers.image.mode import Mode

@@ -1,12 +1,12 @@
 import unittest
-from image import read, write
-from image.mode import Mode
+from image import read
 
 
 class ImageProperties(unittest.TestCase):
 
     img1 = read(r'./test_data/test_image_0.jpg')
     img2 = read(r'./test_data/test_greyscale.png')
+    img3 = read(r'./test_data/test_rgb.png')
 
     def test_width(self):
         self.assertEqual(self.img1.width, 1511)
@@ -17,6 +17,9 @@ class ImageProperties(unittest.TestCase):
     def test_channels(self):
         self.assertEqual(self.img1.channels, 3)
         self.assertEqual(self.img2.channels, 3)
+
+    def test_size(self):
+        self.assertEqual(self.img3.size, 100 * 100 * 3)
 
 
 if __name__ == '__main__':
