@@ -31,3 +31,7 @@ class Image:
     @property
     def mode(self):
         return self._handler.mode
+
+    @property
+    def metrics(self):
+        return self._handler.metrics
