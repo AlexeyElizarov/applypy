@@ -2,7 +2,7 @@ import unittest
 
 import cv2
 
-from image.file import read, write
+from image import read, write
 
 
 class ReadImage(unittest.TestCase):
