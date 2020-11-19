@@ -16,10 +16,10 @@ class ImageProperties(unittest.TestCase):
 
     def test_channels(self):
         self.assertEqual(self.img1.channels, 3)
-        self.assertEqual(self.img2.channels, 3)
+        self.assertEqual(self.img2.channels, 0)
 
     def test_size(self):
-        self.assertEqual(self.img3.size, 100 * 100 * 3)
+        self.assertEqual(self.img3.size, self.img3.width * self.img3.height * self.img3.channels)
 
 
 if __name__ == '__main__':

@@ -1,35 +1,41 @@
-from os import getcwd, mkdir, chdir
-from os.path import dirname, basename, exists
+from os import mkdir
+from os.path import exists, dirname
 
 from cv2 import imread, imwrite
+from numpy import ndarray, asarray
 
 from handler import ImageHandler
 
 
-class Image:
+class Image(ndarray):
 
     """This class represents an Image object"""
 
-    def __init__(self, array):
-        self.array = array
-        self._handler = ImageHandler(self)
+    def __new__(cls, input_array):
+        # http://docs.scipy.org/doc/numpy/user/basics.subclassing.html#slightly-more-realistic-example-attribute-added-to-existing-array
+        obj = asarray(input_array).view(cls)
+        obj._handler = ImageHandler(obj)
+        return obj
 
-    @property
-    def size(self):
-        return self.array.size
+    def __array_finalize__(self, obj):
+
+        if obj is None:
+            return
+
+        self._handler = getattr(obj, '_handler', None)
 
     @property
     def height(self):
-        return self.array.shape[0]
+        return self.shape[0]
 
     @property
     def width(self):
-        return self.array.shape[1]
+        return self.shape[1]
 
     @property
     def channels(self):
         try:
-            return self.array.shape[2]
+            return self.shape[2]
         except IndexError:
             return 0
 
@@ -44,6 +50,11 @@ class Image:
     @property
     def filter(self):
         return self._handler.filter
+
+    @staticmethod
+    def create(array):
+        """Creates an Image object from the array"""
+        return Image(array)
 
 
 def read(path: str):
@@ -61,7 +72,7 @@ def read(path: str):
         raise FileNotFoundError
 
 
-def write(path: str, image: Image) -> bool:
+def write(path: str, image) -> bool:
     """
     Saves the image to the specified path.
     :param image: Image object
@@ -74,4 +85,4 @@ def write(path: str, image: Image) -> bool:
     if not exists(dir_name):
         mkdir(dir_name)
 
-    return imwrite(path, image.array)
+    return imwrite(path, image)

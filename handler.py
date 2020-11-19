@@ -30,7 +30,7 @@ class ImageBlur(BaseHandler):
         """
         Smooths a rectangle area of the image using Gaussian  blur.
         :param sigma_x: Gaussian kernel standard deviation in X direction.
-        :param kernel_size: Gaussian kernel size. ksize.width and ksize.height can differ but they both must be
+        :param kernel_size: Gaussian kernel size. kernel_size.width and kernel_size.height can differ but they both must be
         positive and odd. Or, they can be zero's and then they are computed from sigma.
         :param region: a tuple of top left and bottom right points of the smoothing area.
         The whole image will smoothed if not provided.
@@ -61,8 +61,8 @@ class ImageMode(BaseHandler):
 
     def to_greyscale(self):
         """Convert to grey scale"""
-        self._obj.array = cvtColor(self._obj.array, COLOR_BGR2GRAY)
-        return self._obj
+        array = cvtColor(self._obj.array, COLOR_BGR2GRAY)
+        return create(array)
 
 
 class ImageMetrics(BaseHandler):
