@@ -42,11 +42,12 @@ class ImageBlur(BaseHandler):
         else:
             top_left, bottom_right = region
 
-        smooth_area = self._obj.array[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
-        smoothed = GaussianBlur(smooth_area, kernel_size, sigma_x, *args)
-        self._obj.array[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]] = smoothed
+        smoothed = self._obj.copy()
+        smoothed_region = smoothed[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]]
+        smoothed_region = GaussianBlur(smoothed_region, kernel_size, sigma_x, *args)
+        smoothed[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]] = smoothed_region
 
-        return self._obj
+        return self._obj.create(smoothed)
 
 
 class ImageFilter(BaseHandler):
@@ -61,8 +62,8 @@ class ImageMode(BaseHandler):
 
     def to_greyscale(self):
         """Convert to grey scale"""
-        array = cvtColor(self._obj.array, COLOR_BGR2GRAY)
-        return create(array)
+        array = cvtColor(self._obj, COLOR_BGR2GRAY)
+        return self._obj.create(array)
 
 
 class ImageMetrics(BaseHandler):
@@ -74,7 +75,8 @@ class ImageMetrics(BaseHandler):
         :param image: Image to compare, must have same shape.
         :return: the mean-squared error (MSE) metric.
         """
+
         img1 = self._obj.mode.to_greyscale()
         img2 = image.mode.to_greyscale()
 
-        return mean_squared_error(img1.array, img2.array)
+        return mean_squared_error(img1, img2)
