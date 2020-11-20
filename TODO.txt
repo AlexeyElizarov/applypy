@@ -1,1 +1,0 @@
-FIXME: when applying modes the handler changes the object, should return new object.
