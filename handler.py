@@ -9,6 +9,27 @@ class BaseHandler:
         self._obj = obj
 
 
+class FrameHandler(BaseHandler):
+
+    def read(self, frame_num):
+        """
+        Reads a frame from the video file by its number.
+        :return: Frame object
+        """
+
+        self._obj.cap.set(1, frame_num)
+        ret, frame = self._obj.cap.read()
+
+        return self._obj.create_image(frame)
+
+
+class VideoHandler(BaseHandler):
+
+    @property
+    def frames(self):
+        return FrameHandler(self._obj)
+
+
 class ImageHandler(BaseHandler):
 
     @property
