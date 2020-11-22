@@ -2,7 +2,6 @@ from os.path import exists
 
 from cv2.cv2 import VideoCapture, CAP_PROP_FRAME_COUNT, VideoWriter, VideoWriter_fourcc
 from numpy import uint8
-from tqdm import tqdm
 
 from handler import VideoHandler
 from image import Image
