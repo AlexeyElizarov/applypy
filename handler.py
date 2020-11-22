@@ -14,13 +14,34 @@ class FrameHandler(BaseHandler):
     def read(self, frame_num):
         """
         Reads a frame from the video file by its number.
-        :return: Frame object
+        :return: Image object
         """
 
         self._obj.cap.set(1, frame_num)
         ret, frame = self._obj.cap.read()
 
         return self._obj.create_image(frame)
+
+    def extract(self, threshold=0):
+        """
+        Extracts frames from the video file with the given MSE threshold.
+        If threshold not provided, than all frames will be extracted
+        :param threshold: MSE threshold.
+        :return: list of frames.
+        """
+
+        frames = []
+        base_frame = self._obj.frames.read(0)
+        frames.append(base_frame)
+
+        for i in range(1, self._obj.length):
+            frame = self._obj.frames.read(i)
+            mse = frame.metrics.mse(base_frame)
+            if mse >= threshold:
+                frames.append(frame)
+                base_frame = frame
+
+        return frames
 
 
 class VideoHandler(BaseHandler):
