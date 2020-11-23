@@ -72,8 +72,8 @@ class ImageBlur(BaseHandler):
         """
         Smooths a rectangle area of the image using Gaussian  blur.
         :param sigma_x: Gaussian kernel standard deviation in X direction.
-        :param kernel_size: Gaussian kernel size. kernel_size.width and kernel_size.height can differ but they both must be
-        positive and odd. Or, they can be zero's and then they are computed from sigma.
+        :param kernel_size: Gaussian kernel size. kernel_size.width and kernel_size.height can differ
+        but they both must be positive and odd. Or, they can be zero's and then they are computed from sigma.
         :param region: a tuple of top left and bottom right points of the smoothing area.
         The whole image will smoothed if not provided.
         :return: smoothed image.
