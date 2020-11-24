@@ -1,4 +1,4 @@
-from cv2 import cvtColor, COLOR_BGR2GRAY, GaussianBlur, rectangle
+from cv2 import cvtColor, COLOR_BGR2GRAY, GaussianBlur, rectangle, FILLED, LINE_4, LINE_8
 from skimage.metrics import mean_squared_error
 
 
@@ -53,19 +53,22 @@ class VideoHandler(BaseHandler):
 
 class ImageDraw(BaseHandler):
 
-    def rectangle(self, top_left, bottom_right, color, thickness=None, line_type=None, shift=None):
+    def rectangle(self, top_left: tuple, bottom_right: tuple, color: tuple, thickness: int = 1, filled: bool = False):
         """
         Draws a simple, thick, or filled up-right rectangle.
+        :param filled: If True then the function has to draw a filled rectangle.
         :param top_left: Top-left coordinates of the rectangle.
         :param bottom_right: Bottom-right coordinates of the rectangle
         :param color: Rectangle color or brightness (grayscale image).
         :param thickness: Thickness of lines that make up the rectangle.
         Negative values, like FILLED, mean that the function has to draw a filled rectangle.
-        :param line_type: Type of the line: FILLED, LINE_4, LINE_8, LINE_AA.
-        :param shift: Number of fractional bits in the point coordinates.
         :return: None.
         """
-        rectangle(self._obj, top_left, bottom_right, color, thickness, line_type, shift)
+
+        if filled:
+            thickness = -1
+
+        rectangle(self._obj, top_left, bottom_right, color[::-1], thickness)
 
 
 class ImageHandler(BaseHandler):
