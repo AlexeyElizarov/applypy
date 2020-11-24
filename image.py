@@ -1,8 +1,8 @@
 from os import mkdir
 from os.path import exists, dirname
 
-from cv2 import imread, imwrite
-from numpy import ndarray, asarray
+from cv2 import imread, imwrite, invert
+from numpy import ndarray, asarray, zeros, uint8
 
 from handler import ImageHandler
 
@@ -41,7 +41,11 @@ class Image(ndarray):
 
     @property
     def mode(self):
-        return self._handler.mode
+        return self._handler.draw
+
+    @property
+    def draw(self):
+        return self._handler.draw
 
     @property
     def metrics(self):
@@ -52,8 +56,20 @@ class Image(ndarray):
         return self._handler.filter
 
     @staticmethod
-    def create(array):
-        """Creates an Image object from the array"""
+    def create(size: tuple, background=None):
+        """Creates an Image of the specified size and background color"""
+
+        w, h = size
+        array = zeros((h, w, 3), uint8)
+
+        if background is not None:
+            array[::] = background[::-1]
+
+        return Image(array)
+
+    @staticmethod
+    def new(array):
+        """Creates an Image from the array"""
         return Image(array)
 
 

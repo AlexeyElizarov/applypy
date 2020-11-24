@@ -1,4 +1,4 @@
-from cv2 import cvtColor, COLOR_BGR2GRAY, GaussianBlur
+from cv2 import cvtColor, COLOR_BGR2GRAY, GaussianBlur, rectangle
 from skimage.metrics import mean_squared_error
 
 
@@ -51,7 +51,28 @@ class VideoHandler(BaseHandler):
         return FrameHandler(self._obj)
 
 
+class ImageDraw(BaseHandler):
+
+    def rectangle(self, top_left, bottom_right, color, thickness=None, line_type=None, shift=None):
+        """
+        Draws a simple, thick, or filled up-right rectangle.
+        :param top_left: Top-left coordinates of the rectangle.
+        :param bottom_right: Bottom-right coordinates of the rectangle
+        :param color: Rectangle color or brightness (grayscale image).
+        :param thickness: Thickness of lines that make up the rectangle.
+        Negative values, like FILLED, mean that the function has to draw a filled rectangle.
+        :param line_type: Type of the line: FILLED, LINE_4, LINE_8, LINE_AA.
+        :param shift: Number of fractional bits in the point coordinates.
+        :return: None.
+        """
+        rectangle(self._obj, top_left, bottom_right, color, thickness, line_type, shift)
+
+
 class ImageHandler(BaseHandler):
+
+    @property
+    def draw(self):
+        return ImageDraw(self._obj)
 
     @property
     def mode(self):
@@ -89,7 +110,7 @@ class ImageBlur(BaseHandler):
         smoothed_region = GaussianBlur(smoothed_region, kernel_size, sigma_x, *args)
         smoothed[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]] = smoothed_region
 
-        return self._obj.create(smoothed)
+        return self._obj.new(smoothed)
 
 
 class ImageFilter(BaseHandler):
@@ -105,7 +126,7 @@ class ImageMode(BaseHandler):
     def to_greyscale(self):
         """Convert to grey scale"""
         array = cvtColor(self._obj, COLOR_BGR2GRAY)
-        return self._obj.create(array)
+        return self._obj.new(array)
 
 
 class ImageMetrics(BaseHandler):
