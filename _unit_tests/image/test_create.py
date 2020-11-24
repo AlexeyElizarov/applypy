@@ -1,7 +1,6 @@
 import unittest
-from os.path import exists
 
-from comtypes.safearray import numpy
+import numpy
 
 from image import Image, write
 
