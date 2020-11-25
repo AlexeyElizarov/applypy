@@ -1,0 +1,1 @@
+TODO: image.draw.rectangle: add line type and shift parameters
