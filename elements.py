@@ -22,7 +22,7 @@ class BaseElement:
         upper = array([int(round(c * (1 + upper_k), 0)) for c in color])
         return lower, upper
 
-    def find_contours(self, image: Image, color: tuple, k: tuple, kernel: int) -> list:
+    def find_contours(self, image: Image, color: tuple, k: tuple = (0, 0), kernel: int = 0) -> list:
         """
         Finds external contours with given color coefficients and kernel.
         :param color: RGB color tuple.

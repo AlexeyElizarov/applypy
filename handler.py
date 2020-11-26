@@ -1,4 +1,4 @@
-from cv2 import cvtColor, COLOR_BGR2GRAY, GaussianBlur, rectangle, FILLED, LINE_4, LINE_8
+from cv2 import cvtColor, COLOR_BGR2GRAY, GaussianBlur, rectangle, drawContours, circle
 from skimage.metrics import mean_squared_error
 
 
@@ -62,13 +62,49 @@ class ImageDraw(BaseHandler):
         :param color: Rectangle color or brightness (grayscale image).
         :param thickness: Thickness of lines that make up the rectangle.
         Negative values, like FILLED, mean that the function has to draw a filled rectangle.
-        :return: None.
+        :return: Image object.
         """
+
+        img = self._obj.copy()
 
         if filled:
             thickness = -1
 
-        rectangle(self._obj, top_left, bottom_right, color[::-1], thickness)
+        return self._obj.new(rectangle(img, top_left, bottom_right, color[::-1], thickness))
+
+    def contours(self, contours, contour_id: int = None, color: tuple = (255, 255, 255)):
+        """
+        Draws contours outlines or filled contours.
+        :param contours: All the input contours. Each contour is stored as a point vector.
+        :param contour_id: Parameter indicating a contour to draw. If not specified, all contours will be drawn.
+        :param color: Color of the contours. White by default.
+        :return: Image object.
+        """
+
+        img = self._obj.copy()
+
+        if contour_id is None:
+            contour_id = -1
+
+        return self._obj.new(drawContours(img, contours, contour_id, color[::-1]))
+
+    def circle(self, center, radius, color: tuple = (255, 255, 255), thickness: int = 1, filled: bool = False):
+        """
+        Draws a circle.
+        :param center:	Center of the circle.
+        :param radius: 	Radius of the circle.
+        :param color: Circle color.
+        :param thickness: Thickness of the circle outline
+        :param filled: If True, filled circle to be drawn.
+        :return: Image object.
+        """
+
+        img = self._obj.copy()
+
+        if filled:
+            thickness = -1
+
+        return self._obj.new(circle(img, center, radius, color[::-1], thickness))
 
 
 class ImageHandler(BaseHandler):

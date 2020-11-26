@@ -1,7 +1,7 @@
 from os import mkdir
 from os.path import exists, dirname
 
-from cv2 import imread, imwrite, invert
+from cv2 import imread, imwrite
 from numpy import ndarray, asarray, zeros, uint8
 
 from handler import ImageHandler
@@ -24,6 +24,9 @@ class Image(ndarray):
 
         self._handler = getattr(obj, '_handler', None)
 
+    def __str__(self):
+        return super().__str__()
+
     @property
     def height(self):
         return self.shape[0]
@@ -41,7 +44,7 @@ class Image(ndarray):
 
     @property
     def mode(self):
-        return self._handler.draw
+        return self._handler.mode
 
     @property
     def draw(self):

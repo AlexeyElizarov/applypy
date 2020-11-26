@@ -1,1 +1,3 @@
-TODO: image.draw.rectangle: add line type and shift parameters
+TODO: image.draw.rectangle: add thickness, line type and shift parameters
+TODO: image.draw.contours: add thickness, line type, hierarchy, max level, offset parameters
+TODO: image.draw.circle: add line type, shift parameters
