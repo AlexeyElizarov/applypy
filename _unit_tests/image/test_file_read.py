@@ -7,16 +7,24 @@ from image import read
 
 class ReadImage(unittest.TestCase):
 
-    def test_valid_image(self):
-        # Test a valid image path
-        self.assertTrue(read('./test_data/test_read_image.jpg').size > 0)
+    ref_size = 9133995
 
-    def test_invalid_image(self):
+    def test_valid_path(self):
+        # Test a valid image path
+        self.assertTrue(read(r'.\test_data\test_read_image.jpg').size == self.ref_size)
+
+    def test_invalid_path(self):
         # Test an invalid image path
         with self.assertRaises(FileNotFoundError):
             read('foo')
 
+    def test_cyrillic_filename(self):
+        # Test cyrillic filename
+        self.assertTrue(read(r'.\test_data\изображение.jpg').size == self.ref_size)
 
+    def test_cyrillic_path(self):
+        # Test cyrillic filename
+        self.assertTrue(read(r".\test_data\изображения\изображение.jpg").size == self.ref_size)
 
 
 if __name__ == '__main__':

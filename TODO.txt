@@ -1,3 +1,4 @@
-TODO: image.draw.rectangle: add thickness, line type and shift parameters
-TODO: image.draw.contours: add thickness, line type, hierarchy, max level, offset parameters
-TODO: image.draw.circle: add line type, shift parameters
+TODO: Image.draw.rectangle: add thickness, line type and shift parameters
+TODO: Image.draw.contours: add thickness, line type, hierarchy, max level, offset parameters
+TODO: Image.draw.circle: add line type, shift parameters
+TODO: Video.frame.extract: return tuple (fame_num, Image)
