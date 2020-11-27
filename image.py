@@ -1,19 +1,18 @@
 from os import mkdir
-from os.path import exists, dirname
+from os.path import exists, dirname, splitext
 
-from cv2 import imread, imwrite
-from numpy import ndarray, asarray, zeros, uint8
+import cv2
+import numpy
 
 from handler import ImageHandler
 
 
-class Image(ndarray):
-
+class Image(numpy.ndarray):
     """This class represents an Image object"""
 
     def __new__(cls, input_array):
         # http://docs.scipy.org/doc/numpy/user/basics.subclassing.html#slightly-more-realistic-example-attribute-added-to-existing-array
-        obj = asarray(input_array).view(cls)
+        obj = numpy.asarray(input_array).view(cls)
         obj._handler = ImageHandler(obj)
         return obj
 
@@ -63,7 +62,7 @@ class Image(ndarray):
         """Creates an Image of the specified size and background color"""
 
         w, h = size
-        array = zeros((h, w, 3), uint8)
+        array = numpy.zeros((h, w, 3), numpy.uint8)
 
         if background is not None:
             array[::] = background[::-1]
@@ -85,10 +84,15 @@ def read(path: str):
     :return: Image object or False.
     """
 
-    if exists(path):
-        return Image(imread(path))
-    else:
+    if not exists(path):
         raise FileNotFoundError
+
+    f = open(path, "rb")
+    chunk = f.read()
+    f.close()
+    nbuffer = numpy.frombuffer(chunk, dtype=numpy.uint8)
+    img = cv2.imdecode(nbuffer, cv2.IMREAD_COLOR)
+    return Image(img)
 
 
 def write(path: str, image) -> bool:
@@ -104,4 +108,12 @@ def write(path: str, image) -> bool:
     if not exists(dir_name):
         mkdir(dir_name)
 
-    return imwrite(path, image)
+    ext = splitext(path)[1]
+    retcode, nbuffer = cv2.imencode(ext, image)
+    chunk = nbuffer.tobytes()
+
+    f = open(path, "wb")
+    f.write(chunk)
+    f.close()
+
+    return retcode
