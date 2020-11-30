@@ -85,7 +85,8 @@ def read(path: str):
     """
 
     if not exists(path):
-        raise FileNotFoundError
+        from errno import ENOENT
+        raise FileNotFoundError(ENOENT, 'File not found', path)
 
     with open(path, "rb") as file:
         chunk = file.read()
