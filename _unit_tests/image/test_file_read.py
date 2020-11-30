@@ -1,33 +1,7 @@
 import unittest
 
+from helpers import TestFileHelper
 from image import read
-
-
-class TestFileHelper(object):
-    _test_class_path = None
-
-    @staticmethod
-    def _data_subdir():
-        return 'test_data'
-
-    def __get_test_class_path(self):
-        self_class = self.__class__
-        path = self_class._test_class_path
-        if path is None:
-            import sys
-            import os
-            module_name = self_class.__module__
-            module_file = sys.modules[module_name].__file__
-            path = os.path.dirname(module_file)
-            self_class._test_class_path = path
-        return path
-
-    def _test_file(self, *names: str) -> str:
-        import os
-        class_path = self.__get_test_class_path()
-        data_subdir = self._data_subdir()
-        full_path = os.path.join(class_path, data_subdir, *names)
-        return os.path.normpath(full_path)
 
 
 class ReadImage(unittest.TestCase, TestFileHelper):
