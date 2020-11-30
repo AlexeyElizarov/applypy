@@ -92,6 +92,7 @@ def read(path: str):
     f.close()
     nbuffer = numpy.frombuffer(chunk, dtype=numpy.uint8)
     img = cv2.imdecode(nbuffer, cv2.IMREAD_COLOR)
+
     return Image(img)
 
 
