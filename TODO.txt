@@ -1,6 +1,8 @@
 TODO: refactor main.py
 TODO: implement TeleNote detection algorithm
 TODO: reorganize unit tests: split them into two groups - unit tests and functional tests.
+TODO: share test videos with Max
+TODO: implement video frames handling with FFMPEG -> Max
 TODO: Image.draw.rectangle: add thickness, line type and shift parameters
 TODO: Image.draw.contours: add thickness, line type, hierarchy, max level, offset parameters
 TODO: Image.draw.circle: add line type, shift parameters
