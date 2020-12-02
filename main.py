@@ -3,7 +3,7 @@ from elements import TelegramNotificationElement
 
 
 def baseline(input_video, output_video):
-    """Baseline scenario is to detect Telegram Notifications in the video file and blur them."""
+    """Baseline scenario is to detect Telegram Notifications in the video file and blur them out."""
 
     element = TelegramNotificationElement()
 
