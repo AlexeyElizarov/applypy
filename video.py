@@ -23,6 +23,21 @@ class Video:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.cap.release()
 
+    def detect(self, element):
+        raise NotImplementedError
+
+    @property
+    def bitrate(self):
+        raise NotImplementedError
+
+    @property
+    def dimension(self):
+        raise NotImplementedError
+
+    @property
+    def codec(self):
+        raise NotImplementedError
+
     @property
     def length(self):
         return int(self.cap.get(CAP_PROP_FRAME_COUNT))
