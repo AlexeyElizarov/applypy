@@ -1,8 +1,8 @@
+from binascii import unhexlify
 from os.path import exists
 
-from cv2.cv2 import VideoCapture, CAP_PROP_FRAME_COUNT, VideoWriter, VideoWriter_fourcc
+from cv2.cv2 import VideoCapture, VideoWriter, VideoWriter_fourcc
 from numpy import uint8
-
 from handler import VideoHandler
 from image import Image
 
@@ -27,20 +27,28 @@ class Video:
         raise NotImplementedError
 
     @property
-    def bitrate(self):
-        raise NotImplementedError
+    def framerate(self):
+        return self.cap.get(5)
+
+    @property
+    def width(self):
+        return int(self.cap.get(3))
+
+    @property
+    def height(self):
+        return int(self.cap.get(4))
 
     @property
     def dimension(self):
-        raise NotImplementedError
+        return self.width, self.height
 
     @property
     def codec(self):
-        raise NotImplementedError
+        return unhexlify('%x' % int(self.cap.get(6)))[::-1].decode()
 
     @property
     def length(self):
-        return int(self.cap.get(CAP_PROP_FRAME_COUNT))
+        return int(self.cap.get(7))
 
     @property
     def frames(self):
