@@ -85,11 +85,12 @@ def read(path: str):
     """
 
     if not exists(path):
-        raise FileNotFoundError
+        from errno import ENOENT
+        raise FileNotFoundError(ENOENT, 'File not found', path)
 
-    f = open(path, "rb")
-    chunk = f.read()
-    f.close()
+    with open(path, "rb") as file:
+        chunk = file.read()
+
     nbuffer = numpy.frombuffer(chunk, dtype=numpy.uint8)
     img = cv2.imdecode(nbuffer, cv2.IMREAD_COLOR)
 
@@ -113,8 +114,7 @@ def write(path: str, image) -> bool:
     retcode, nbuffer = cv2.imencode(ext, image)
     chunk = nbuffer.tobytes()
 
-    f = open(path, "wb")
-    f.write(chunk)
-    f.close()
+    with open(path, "wb") as file:
+        file.write(chunk)
 
     return retcode
