@@ -23,7 +23,7 @@ class TestVideoDetails(unittest.TestCase):
     def test_dimension(self):
 
         path = r"D:\PyProjects\blurTelegramNotifications\_unit_tests\video\test_data\test_video_read.mp4"
-        ref_dimension = (1092, 614)
+        ref_dimension = 1092, 614
 
         with Video(path) as video:
             self.assertEqual(video.dimension, ref_dimension)
