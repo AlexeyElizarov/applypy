@@ -26,7 +26,7 @@ class TestVideoDetails(unittest.TestCase):
         ref_dimension = (1092, 614)
 
         with Video(path) as video:
-            self.assertEqual((video.width, video.height), ref_dimension)
+            self.assertEqual(video.dimension, ref_dimension)
 
     def test_framerate(self):
 
