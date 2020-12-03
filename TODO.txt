@@ -7,3 +7,4 @@ TODO: Image.draw.rectangle: add thickness, line type and shift parameters
 TODO: Image.draw.contours: add thickness, line type, hierarchy, max level, offset parameters
 TODO: Image.draw.circle: add line type, shift parameters
 TODO: Video.frame.extract: return tuple (fame_num, Image)
+TODO: add all cap properties: https://docs.opencv.org/master/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
