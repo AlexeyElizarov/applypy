@@ -34,8 +34,8 @@ def baseline(input_video, output_video):
 
 if __name__ == '__main__':
 
-    video_in = r".\_unit_tests\video\test_data\test_video_read.mp4"
-    video_out = r".\_unit_tests\video\test_data\test_video_write.mp4"
+    video_in = r""
+    video_out = r""
 
     baseline(video_in, video_out)
 
