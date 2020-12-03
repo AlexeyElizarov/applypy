@@ -28,7 +28,7 @@ def baseline(input_video, output_video):
             frames.append((frame_num, frame))
 
         # frames is the list of tuples of frame number and frame to be replaced in the input video
-        # TODO: to be implemented
+        # TODO: video.write() to be implemented
         video.write(output_video, frames, codec=video.codec, bitrate=video.framerate, dimension=video.dimension)
 
 
