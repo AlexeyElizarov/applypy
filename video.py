@@ -3,6 +3,8 @@ from os.path import exists
 
 from cv2.cv2 import VideoCapture, VideoWriter, VideoWriter_fourcc
 from numpy import uint8
+from tqdm import tqdm
+
 from handler import VideoHandler
 from image import Image
 
@@ -24,7 +26,16 @@ class Video:
         self.cap.release()
 
     def detect(self, element):
-        raise NotImplementedError
+
+        elements = []
+
+        for i in tqdm(range(self.length)):
+            frame = self.frames.read(i)
+            contours = element.detect(frame)
+            if contours:
+                elements.append((i, contours))
+
+        return elements
 
     @property
     def framerate(self):
@@ -60,9 +71,10 @@ class Video:
 
     @staticmethod
     def write(frames, path, codec, bitrate, dimension):
+        raise NotImplementedError
 
-        with Writer(path, codec, bitrate, dimension) as vw:
-            vw.write(frames)
+        # with Writer(path, codec, bitrate, dimension) as vw:
+        #     vw.write(frames)
 
 
 class Writer:

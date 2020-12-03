@@ -72,7 +72,7 @@ class TelegramNotificationElement(BaseElement):
         """
         return w * h
 
-    def detect(self, image: Image, k: tuple, kernel: int) -> list:
+    def detect(self, image: Image, k: tuple = (0.4, 0.4), kernel: int = 5) -> list:
         """
         Returns the list of notification pop-ups using TelegramNotification parameters.
         :param kernel: kernel size.
@@ -87,13 +87,13 @@ class TelegramNotificationElement(BaseElement):
             for contour in contours:
                 x, y, w, h = boundingRect(contour)
                 if w * h == self._area(*self._PRIMARY_NOTIFICATION) and x == self._X:
-                    self.objects.append(((x, y), (x + w, y + h)))
+                    self.objects.append(contour)
 
         # Find secondary notification pop-up
         if self.objects:
             for contour in contours:
                 x, y, w, h = boundingRect(contour)
                 if w * h == self._area(*self._SECONDARY_NOTIFICATION) and x == self._X:
-                    self.objects.append(((x, y,), (x + w, y + h)))
+                    self.objects.append(contour)
 
         return self.objects
