@@ -1,5 +1,4 @@
 import unittest
-from random import randint
 from video import Video
 
 
