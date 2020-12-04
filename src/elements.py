@@ -60,7 +60,6 @@ class TelegramNotificationElement(BaseElement):
     _X = 1594
     _PRIMARY_NOTIFICATION = 320, 80
     _SECONDARY_NOTIFICATION = 320, 36
-    objects = []
 
     @staticmethod
     def _area(w: int, h: int) -> int:
@@ -81,19 +80,20 @@ class TelegramNotificationElement(BaseElement):
         """
 
         contours = self.find_contours(image, self._COLOR, k, kernel)
+        elements = []
 
         # Find primary notification pop-up
         if contours:
             for contour in contours:
                 x, y, w, h = boundingRect(contour)
                 if w * h == self._area(*self._PRIMARY_NOTIFICATION) and x == self._X:
-                    self.objects.append(contour)
+                    elements.append(contour)
 
         # Find secondary notification pop-up
-        if self.objects:
+        if elements:
             for contour in contours:
                 x, y, w, h = boundingRect(contour)
                 if w * h == self._area(*self._SECONDARY_NOTIFICATION) and x == self._X:
-                    self.objects.append(contour)
+                    elements.append(contour)
 
-        return self.objects
+        return elements
