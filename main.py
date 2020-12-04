@@ -20,8 +20,7 @@ def baseline(input_video, output_video):
             frame = video.frames.read(frame_num)
 
             for contour in contours:
-                # TODO: boundingRect() to be replaced with contour.rectangle()
-                x, y, w, h = boundingRect(contour)
+                x, y, w, h = contour.rectangle
                 region = (x, y), (x + w, y + h)
                 frame = frame.filter.blur(kernel_size=(99, 99), sigma_x=0, region=region)
 

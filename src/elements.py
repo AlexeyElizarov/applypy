@@ -4,6 +4,7 @@ from cv2.cv2 import inRange, bitwise_and, morphologyEx, MORPH_OPEN, MORPH_CLOSE,
     findContours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE, boundingRect
 from numpy import ones, uint8, array
 
+from contours import Contour
 from image import Image
 
 
@@ -40,7 +41,8 @@ class BaseElement:
         tmp = morphologyEx(tmp, MORPH_CLOSE, kernel)
         tmp = cvtColor(tmp, COLOR_RGB2GRAY)
         tmp, contours, hierarchy = findContours(tmp, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE)
-        return contours
+
+        return [Contour(contour) for contour in contours]
 
     @abstractmethod
     def detect(self, *args):
