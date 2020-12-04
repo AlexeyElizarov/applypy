@@ -13,10 +13,9 @@ class WriteImage(unittest.TestCase, TestFileHelper):
 
     def test_absolute_path(self):
         # Test writing a valid image
-        # image = read(self._test_file('test_read_image.jpg'))
-        image = read(self._test_file('test_write_image.jpg'))
+        image = read(self._test_file('test_read_image.jpg'))
         with self._temp_dir() as temp_dir:
-            path = join(temp_dir, 'test_write_image.jpg')
+            path = join(temp_dir, 'test_write_image.png')
             path = abspath(path)
             write(path, image)
             self.assertTrue(exists(path))
@@ -26,10 +25,9 @@ class WriteImage(unittest.TestCase, TestFileHelper):
 
     def test_relative_path(self):
         # Test writing a valid image
-        # image = read(self._test_file('test_read_image.jpg'))
-        image = read(self._test_file('test_write_image.jpg'))
+        image = read(self._test_file('test_read_image.jpg'))
         with self._temp_dir() as temp_dir:
-            path = join(temp_dir, 'test_write_image.jpg')
+            path = join(temp_dir, 'test_write_image.png')
             path = relpath(path, getcwd())
             write(path, image)
             self.assertTrue(exists(path))
@@ -39,10 +37,9 @@ class WriteImage(unittest.TestCase, TestFileHelper):
 
     def test_invalid_path(self):
         # Test writing a valid image
-        # image = read(self._test_file('test_read_image.jpg'))
-        image = read(self._test_file('test_write_image.jpg'))
+        image = read(self._test_file('test_read_image.jpg'))
         with self._temp_dir() as temp_dir:
-            path = join(temp_dir, 'not_exist_dir', 'test_write_image.jpg')
+            path = join(temp_dir, 'not_exist_dir', 'test_write_image.png')
 
             self.assertFalse(exists(dirname(path)))
 
@@ -54,8 +51,7 @@ class WriteImage(unittest.TestCase, TestFileHelper):
 
     def test_invalid_ext(self):
         # Test writing a valid image with improper file extension
-        # image = read(self._test_file('test_read_image.jpg'))
-        image = read(self._test_file('test_write_image.jpg'))
+        image = read(self._test_file('test_read_image.jpg'))
         with self._temp_dir() as temp_dir:
             path = join(temp_dir, 'foo.xxx')
             with self.assertRaises(cv2.error):
