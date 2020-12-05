@@ -87,14 +87,14 @@ class TelegramNotificationElement(BaseElement):
         # Find primary notification pop-up
         if contours:
             for contour in contours:
-                x, y, w, h = boundingRect(contour)
+                x, y, w, h = contour.rectangle
                 if w * h == self._area(*self._PRIMARY_NOTIFICATION) and x == self._X:
                     elements.append(contour)
 
         # Find secondary notification pop-up
         if elements:
             for contour in contours:
-                x, y, w, h = boundingRect(contour)
+                x, y, w, h = contour.rectangle
                 if w * h == self._area(*self._SECONDARY_NOTIFICATION) and x == self._X:
                     elements.append(contour)
 
