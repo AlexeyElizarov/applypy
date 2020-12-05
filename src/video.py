@@ -31,12 +31,10 @@ class Video:
         elements = []
 
         for i in tqdm(range(self.length)):
-            start = time()
             frame = self.frames.read(i)
             contours = element.detect(frame)
             if contours:
                 elements.append((i, contours))
-            print(time() - start)
 
         return elements
 
