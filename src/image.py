@@ -57,6 +57,18 @@ class Image(numpy.ndarray):
     def filter(self):
         return self._handler.filter
 
+    def show(self):
+        """Displays an image in the specified window."""
+
+        cv2.namedWindow('image', cv2.WINDOW_AUTOSIZE)
+        cv2.imshow('image', self)
+        wait_time = 1000
+        while cv2.getWindowProperty('image', 0) >= 0:
+            key_code = cv2.waitKey(wait_time)
+            if key_code & 0xFF == ord('q'):
+                cv2.destroyAllWindows()
+                break
+
     @staticmethod
     def create(size: tuple, background=None):
         """Creates an Image of the specified size and background color"""
