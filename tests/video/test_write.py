@@ -1,14 +1,14 @@
 import unittest
 
+from numpy import array
+
 from image import Image
-from numpy import array, uint8
 from video import Video
 
 
 class TestFrames(unittest.TestCase):
 
     def test_write(self):
-
         path = r'.\test_data\video_write.mp4'
         frames = []
         codec = 'MP4V'

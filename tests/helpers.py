@@ -1,5 +1,6 @@
 import os
 import sys
+from tempfile import TemporaryDirectory
 
 
 class TestFileHelper(object):
@@ -20,6 +21,9 @@ class TestFileHelper(object):
 
     # резервируем имя в классе, во избежание AttributeError при первом обращении
     _test_class_path = None
+
+    _temp_prefix = None
+    _temp_suffix = None
 
     @staticmethod
     def _data_subdir() -> str:
@@ -69,3 +73,8 @@ class TestFileHelper(object):
         data_subdir = self._data_subdir()
         full_path = os.path.join(class_path, data_subdir, *names)
         return os.path.normpath(full_path)
+
+    def _temp_dir(self):
+        return TemporaryDirectory(prefix=self._temp_prefix, suffix=self._temp_suffix)
+        # with self._temp_dir() as tempdir:
+        #     write_path = os.path.join(tempdir, 'test_write_image.jpg')

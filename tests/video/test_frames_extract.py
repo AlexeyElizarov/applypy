@@ -1,8 +1,5 @@
 import unittest
-from os.path import join
-from random import randint
 
-import image
 from video import Video
 
 
