@@ -1,3 +1,8 @@
+TODO: increase performance
+         - find contours in region of interests
+         - implement numba
+         - exploit video structure
+         - use threading
 TODO: reorganize unit tests: split them into two groups - unit tests and functional tests.
 TODO: implement video frames handling with FFMPEG -> Max
 TODO: Image.draw.rectangle(): add thickness, line type and shift parameters
