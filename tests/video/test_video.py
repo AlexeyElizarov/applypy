@@ -1,25 +1,21 @@
 import unittest
-
 from video import Video
+from helpers import TestFileHelper
 
 
-class TestVideo(unittest.TestCase):
+class TestVideo(unittest.TestCase, TestFileHelper):
 
-    vid1 = r'.\test_data\test_video_read.mp4'
-    vid2 = r'.\test_data\invalid.mp4'
-
-    def test_length(self):
+    def test_valid_path(self):
         # Test valid video path
-
-        with Video(self.vid1) as video:
+        path = self._test_file('test_video_read.mp4')
+        with Video(path) as video:
             self.assertGreater(video.length, 0)
 
     def test_invalid_path(self):
         # Test invalid video path
-
+        path = self._test_file('invalid.mp4')
         with self.assertRaises(FileNotFoundError):
-
-            with Video(self.vid2) as video:
+            with Video(path):
                 pass
 
 

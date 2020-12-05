@@ -33,8 +33,8 @@ def baseline(input_video, output_video):
 
 if __name__ == '__main__':
 
-    video_in = r""
-    video_out = r""
+    video_in = r"D:\Videos\Screenbits\SAP Summit 2020\Stocks\_tests\contours\test_contours_02.mp4"
+    video_out = r"D:\Videos\Screenbits\SAP Summit 2020\Stocks\_tests\contours\test_contours_02_out.mp4"
 
     baseline(video_in, video_out)
 

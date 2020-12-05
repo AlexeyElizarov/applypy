@@ -6,3 +6,6 @@ TODO: Image.draw.circle(): add line type, shift parameters
 TODO: Video.frame.extract(): return tuple (fame_num, Image)
 TODO: add all cap properties: https://docs.opencv.org/master/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
 TODO: add contour properties and features: https://docs.opencv.org/3.4/d1/d32/tutorial_py_contour_properties.html
+TODO: video stabilization: https://www.learnopencv.com/video-stabilization-using-point-feature-matching-in-opencv/
+TODO: studio logo detection
+TODO: actor recognition

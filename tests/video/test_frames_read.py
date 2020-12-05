@@ -1,21 +1,18 @@
 import unittest
 from random import randint
-
-import image
 from video import Video
+from helpers import TestFileHelper
 
 
-class TestFrames(unittest.TestCase):
-
-    path = r'.\test_data\video_write.mp4'
+class TestFrames(unittest.TestCase, TestFileHelper):
 
     def test_read(self):
 
+        path = self._test_file('test_video_write.mp4')
         frame_num = 128
 
-        with Video(self.path) as video:
+        with Video(path) as video:
             frame = video.frames.read(frame_num)
-            image.write(r'.\test_data\frame_read.png', frame)
 
         frame = frame.mode.to_greyscale()
 

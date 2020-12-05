@@ -1,12 +1,13 @@
 import unittest
 from video import Video
+from helpers import TestFileHelper
 
 
-class TestVideoDetails(unittest.TestCase):
+class TestVideoDetails(unittest.TestCase, TestFileHelper):
 
     def test_width(self):
 
-        path = r"D:\PyProjects\blurTelegramNotifications\_unit_tests\video\test_data\test_video_read.mp4"
+        path = self._test_file('test_video_read.mp4')
         ref_width = 1092
 
         with Video(path) as video:
@@ -14,7 +15,7 @@ class TestVideoDetails(unittest.TestCase):
 
     def test_height(self):
 
-        path = r"D:\PyProjects\blurTelegramNotifications\_unit_tests\video\test_data\test_video_read.mp4"
+        path = self._test_file('test_video_read.mp4')
         ref_height = 614
 
         with Video(path) as video:
@@ -22,7 +23,7 @@ class TestVideoDetails(unittest.TestCase):
 
     def test_dimension(self):
 
-        path = r"D:\PyProjects\blurTelegramNotifications\_unit_tests\video\test_data\test_video_read.mp4"
+        path = self._test_file('test_video_read.mp4')
         ref_dimension = 1092, 614
 
         with Video(path) as video:
@@ -30,7 +31,7 @@ class TestVideoDetails(unittest.TestCase):
 
     def test_framerate(self):
 
-        path = r"D:\PyProjects\blurTelegramNotifications\_unit_tests\video\test_data\test_video_read.mp4"
+        path = self._test_file('test_video_read.mp4')
         ref_framerate = 30.0
 
         with Video(path) as video:
@@ -38,7 +39,7 @@ class TestVideoDetails(unittest.TestCase):
 
     def test_codec(self):
 
-        path = r"D:\PyProjects\blurTelegramNotifications\_unit_tests\video\test_data\test_video_read.mp4"
+        path = self._test_file('test_video_read.mp4')
         ref_codec = 'avc1'
 
         with Video(path) as video:

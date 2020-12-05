@@ -14,7 +14,7 @@ class TeleNote(unittest.TestCase):
         elements = self.element.detect(img, k=(0.4, 0.4), kernel=5)
 
         for element in elements:
-            img = img.draw.rectangle(*element, color=(0, 255, 0))
+            img = img.draw.contours(element, color=(0, 255, 0))
 
         image.write(r'.\test_data\test_telenote_0.png', img)
 
