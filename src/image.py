@@ -26,6 +26,18 @@ class Image(numpy.ndarray):
     def __str__(self):
         return super().__str__()
 
+    def set_roi(self, x: int, y: int, w: int = None, h: int = None):
+        """
+        Sets region of interest.
+        :param x: x-coordinate.
+        :param y: y-coordinate.
+        :param w: width of the region. Optional. (width - x) if not specified.
+        :param h: height of the region. Optional. (height - y) if not specified.
+        """
+        w = w if w else self.width - x
+        h = h if h else self.height - y
+        return self[y:y + h, x:x + w]
+
     @property
     def height(self):
         return self.shape[0]

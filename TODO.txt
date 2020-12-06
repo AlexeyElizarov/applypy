@@ -14,3 +14,6 @@ TODO: add contour properties and features: https://docs.opencv.org/3.4/d1/d32/tu
 TODO: video stabilization: https://www.learnopencv.com/video-stabilization-using-point-feature-matching-in-opencv/
 TODO: studio logo detection
 TODO: actor recognition
+TODO: 4K upscale
+TODO: video and image deduplicate
+TODO: group images into sets
