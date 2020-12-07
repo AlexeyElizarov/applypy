@@ -1,17 +1,18 @@
 import unittest
-from itertools import product
 
 from os.path import dirname, basename, splitext, join
 from random import randint
 
 from image import Image, write, read
-from elements import TestElement
-
+from elements import BaseElement
+from helpers import TestFileHelper
+from pallet import GREEN
 
 TEST_CASES = {'rect_black': r'.\test_data\test_rect_black.png',
               'rect_white': r'.\test_data\test_rect_white.png',
               'rect_ranged': r'.\test_data\test_rect_ranged.png',
-              'rect_noised': r'.\test_data\test_rect_noised.png'}
+              'rect_noised': r'.\test_data\test_rect_noised.png',
+              'test_roi': 'test_detect_roi.png'}
 
 GRAY = 128, 128, 128
 GRAY_50 = [int(c * 2 / 4) for c in GRAY]
@@ -68,7 +69,13 @@ def prepare_test_data():
 prepare_test_data()
 
 
-class ContourDetection(unittest.TestCase):
+class TestElement(BaseElement):
+
+    def detect(self, **kwargs):
+        pass
+
+
+class FindContours(unittest.TestCase, TestFileHelper):
 
     def test_rect_black(self):
         test_case_path = TEST_CASES['rect_black']
@@ -106,6 +113,15 @@ class ContourDetection(unittest.TestCase):
         contours = TestElement().find_contours(img, GRAY, kernel=7)
         img = img.draw.contours(contours, color=(0, 255, 0))
         write(self.get_path(test_case_path), img)
+
+    def test_roi(self):
+        path = self._test_file(TEST_CASES['test_roi'])
+        img = read(path)
+        roi = img.set_roi(img.width / 2, img.height / 2)
+        offset = roi.width, roi.height
+        contours = TestElement().find_contours(roi, WHITE, offset=offset)
+        img = img.draw.contours(contours, color=GREEN)
+        write(self.get_path(path), img)
 
     @staticmethod
     def get_path(in_path):

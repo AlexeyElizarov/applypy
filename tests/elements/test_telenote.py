@@ -2,21 +2,23 @@ import unittest
 
 import image
 from elements import TelegramNotificationElement
+from helpers import TestFileHelper
+from pallet import GREEN
 
 
-class TeleNote(unittest.TestCase):
+class TeleNote(unittest.TestCase, TestFileHelper):
 
     element = TelegramNotificationElement()
 
     def test_detect(self):
 
-        img = image.read(r"D:\Videos\Screenbits\SAP Summit 2020\Stocks\_tests\contours\_test_contours_01\frame_0000.png")
-        elements = self.element.detect(img, k=(0.4, 0.4), kernel=5)
+        img = image.read(self._test_file('telenote', 'test_telenote_00.png'))
+        elements = self.element.detect(img, k=(0.5, 0.5), kernel=5)
 
         for element in elements:
-            img = img.draw.contours(element, color=(0, 255, 0))
+            img = img.draw.contours(element, color=GREEN)
 
-        image.write(r'.\test_data\test_telenote_0.png', img)
+        img.show()
 
 
 if __name__ == '__main__':
