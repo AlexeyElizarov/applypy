@@ -70,12 +70,15 @@ class Video:
     def create_image(image):
         return Image(image)
 
-    @staticmethod
-    def write(frames, path, codec, bitrate, dimension):
-        raise NotImplementedError
+    def write(self, frames, path, codec=None, framerate=None, dimension=None):
+        # raise NotImplementedError
 
-        # with Writer(path, codec, bitrate, dimension) as vw:
-        #     vw.write(frames)
+        codec = codec if codec else self.codec
+        framerate = framerate if framerate else self.framerate
+        dimension = dimension if dimension else self.dimension
+
+        with Writer(path, codec, framerate, dimension) as vw:
+            vw.write(frames)
 
 
 class Writer:
