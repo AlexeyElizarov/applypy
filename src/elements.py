@@ -86,9 +86,13 @@ class TelegramNotificationElement(BaseElement):
         :type image: Image object
         """
 
-        x_roi, y_roi = self._ROI
-        roi = image.set_roi(image.width * x_roi, image.height * y_roi)
-        offset = roi.width, roi.height
+        if self._ROI:
+            x_roi, y_roi = self._ROI
+            roi = image.set_roi(image.width * x_roi, image.height * y_roi)
+            offset = roi.width, roi.height
+        else:
+            roi = image
+
         contours = self.find_contours(roi, self._COLOR, k, kernel, offset=offset)
         elements = []
 
