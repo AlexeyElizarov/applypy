@@ -1,6 +1,5 @@
 import unittest
-from os import getcwd
-from os.path import exists, dirname, join, abspath, relpath
+from os.path import exists, dirname, join
 
 import cv2
 import numpy
@@ -11,24 +10,11 @@ from image import read, write
 
 class WriteImage(unittest.TestCase, TestFileHelper):
 
-    def test_absolute_path(self):
+    def test_valid_path(self):
         # Test writing a valid image
         image = read(self._test_file('test_read_image.jpg'))
         with self._temp_dir() as temp_dir:
             path = join(temp_dir, 'test_write_image.png')
-            path = abspath(path)
-            write(path, image)
-            self.assertTrue(exists(path))
-
-            new_image = read(path)
-            numpy.testing.assert_array_equal(new_image, image)
-
-    def test_relative_path(self):
-        # Test writing a valid image
-        image = read(self._test_file('test_read_image.jpg'))
-        with self._temp_dir() as temp_dir:
-            path = join(temp_dir, 'test_write_image.png')
-            path = relpath(path, getcwd())
             write(path, image)
             self.assertTrue(exists(path))
 
