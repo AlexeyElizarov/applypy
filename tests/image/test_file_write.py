@@ -43,6 +43,28 @@ class WriteImage(unittest.TestCase, TestFileHelper):
             with self.assertRaises(cv2.error):
                 write(path, image)
 
+    def test_cyrillic_filename(self):
+        # Test cyrillic filename
+        image = read(self._test_file('test_read_image.jpg'))
+        with self._temp_dir() as temp_dir:
+            path = os.path.join(temp_dir, 'изображение.png')
+            write(path, image)
+            self.assertTrue(os.path.exists(path))
+
+            new_image = read(path)
+            numpy.testing.assert_array_equal(new_image, image)
+
+    def test_cyrillic_path(self):
+        # Test cyrillic filename
+        image = read(self._test_file('test_read_image.jpg'))
+        with self._temp_dir() as temp_dir:
+            path = os.path.join(temp_dir, 'изображения', 'изображение.png')
+            write(path, image)
+            self.assertTrue(os.path.exists(path))
+
+            new_image = read(path)
+            numpy.testing.assert_array_equal(new_image, image)
+
 
 if __name__ == '__main__':
     unittest.main()
