@@ -1,6 +1,5 @@
+import os
 import unittest
-from os import getcwd
-from os.path import exists, dirname, join, abspath, relpath
 
 import cv2
 import numpy
@@ -11,26 +10,13 @@ from image import read, write
 
 class WriteImage(unittest.TestCase, TestFileHelper):
 
-    def test_absolute_path(self):
+    def test_valid_path(self):
         # Test writing a valid image
         image = read(self._test_file('test_read_image.jpg'))
         with self._temp_dir() as temp_dir:
-            path = join(temp_dir, 'test_write_image.png')
-            path = abspath(path)
+            path = os.path.join(temp_dir, 'test_write_image.png')
             write(path, image)
-            self.assertTrue(exists(path))
-
-            new_image = read(path)
-            numpy.testing.assert_array_equal(new_image, image)
-
-    def test_relative_path(self):
-        # Test writing a valid image
-        image = read(self._test_file('test_read_image.jpg'))
-        with self._temp_dir() as temp_dir:
-            path = join(temp_dir, 'test_write_image.png')
-            path = relpath(path, getcwd())
-            write(path, image)
-            self.assertTrue(exists(path))
+            self.assertTrue(os.path.exists(path))
 
             new_image = read(path)
             numpy.testing.assert_array_equal(new_image, image)
@@ -39,12 +25,12 @@ class WriteImage(unittest.TestCase, TestFileHelper):
         # Test writing a valid image
         image = read(self._test_file('test_read_image.jpg'))
         with self._temp_dir() as temp_dir:
-            path = join(temp_dir, 'not_exist_dir', 'test_write_image.png')
+            path = os.path.join(temp_dir, 'not_exist_dir', 'test_write_image.png')
 
-            self.assertFalse(exists(dirname(path)))
+            self.assertFalse(os.path.exists(os.path.dirname(path)))
 
             write(path, image)
-            self.assertTrue(exists(path))
+            self.assertTrue(os.path.exists(path))
 
             new_image = read(path)
             numpy.testing.assert_array_equal(new_image, image)
@@ -53,9 +39,31 @@ class WriteImage(unittest.TestCase, TestFileHelper):
         # Test writing a valid image with improper file extension
         image = read(self._test_file('test_read_image.jpg'))
         with self._temp_dir() as temp_dir:
-            path = join(temp_dir, 'foo.xxx')
+            path = os.path.join(temp_dir, 'foo.xxx')
             with self.assertRaises(cv2.error):
                 write(path, image)
+
+    def test_cyrillic_filename(self):
+        # Test cyrillic filename
+        image = read(self._test_file('test_read_image.jpg'))
+        with self._temp_dir() as temp_dir:
+            path = os.path.join(temp_dir, 'изображение.png')
+            write(path, image)
+            self.assertTrue(os.path.exists(path))
+
+            new_image = read(path)
+            numpy.testing.assert_array_equal(new_image, image)
+
+    def test_cyrillic_path(self):
+        # Test cyrillic filename
+        image = read(self._test_file('test_read_image.jpg'))
+        with self._temp_dir() as temp_dir:
+            path = os.path.join(temp_dir, 'изображения', 'изображение.png')
+            write(path, image)
+            self.assertTrue(os.path.exists(path))
+
+            new_image = read(path)
+            numpy.testing.assert_array_equal(new_image, image)
 
 
 if __name__ == '__main__':
