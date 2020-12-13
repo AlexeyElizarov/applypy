@@ -1,7 +1,9 @@
+import cProfile
+import io
 import os
+import pstats
 import sys
 from tempfile import TemporaryDirectory
-import cProfile, pstats, io
 
 
 def profile(fnc):
