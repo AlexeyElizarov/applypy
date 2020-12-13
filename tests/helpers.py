@@ -1,6 +1,37 @@
 import os
 import sys
 from tempfile import TemporaryDirectory
+import cProfile, pstats, io
+
+
+def profile(fnc):
+
+    """Декортатор для профилирования. Позволяет профилировать выполнение
+    внутренней функции inner() с использованием модуля cProfile
+
+    Использование:
+
+    @profile
+    def my_func():
+        pass
+
+    """
+
+    def inner(*arg, **kwargs):
+        pr = cProfile.Profile()
+        pr.enable()
+        ret_val = fnc(*arg, **kwargs)
+        pr.disable()
+        s = io.StringIO()
+        sort_by = 'cumulative'
+        ps = pstats.Stats(pr, stream=s).sort_stats(sort_by)
+        ps.print_stats()
+        print(s.getvalue())
+        return ret_val
+
+    return inner
+
+
 
 
 class TestFileHelper(object):
@@ -12,7 +43,7 @@ class TestFileHelper(object):
     Метод _test_file конструирует имя файла из частей, отсчитывая путь от 'каталоге данных'.
     По умолчанию каталог данных - это кодкаталог 'test_data' от класса тестов.
 
-    Импользование:
+    Использование:
     class MyTestSuit(unittest.TestCase, TestFileHelper):
         def test_file1(self):
             test_file_name = self._test_file('test_file_1.data')
