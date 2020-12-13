@@ -65,7 +65,7 @@ class TelegramNotificationElement(BaseElement):
     _X = 1594
     _PRIMARY_NOTIFICATION = 320, 80
     _SECONDARY_NOTIFICATION = 320, 36
-    _ROI = 0.5, 0.5
+    _ROI = None
 
     @staticmethod
     def _area(w: int, h: int) -> int:

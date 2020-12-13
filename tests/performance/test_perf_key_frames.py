@@ -35,11 +35,10 @@ class TestPerformanceFindContours(unittest.TestCase, TestFileHelper):
 
         with Video(path) as video:
             start = time.time()
-            video.detect(element)
+            video._detect(element)
             end = time.time()
 
         return end - start
-
 
 if __name__ == '__main__':
     unittest.main()

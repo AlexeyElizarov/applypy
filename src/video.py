@@ -1,5 +1,4 @@
 from binascii import unhexlify
-from time import time
 from os.path import exists
 
 from cv2.cv2 import VideoCapture, VideoWriter, VideoWriter_fourcc
@@ -31,8 +30,31 @@ class Video:
         elements = []
 
         for i in tqdm(range(self.length)):
+
             frame = self.frames.read(i)
             contours = element.detect(frame)
+
+            if contours:
+                elements.append((i, contours))
+
+        return elements
+
+    def _detect(self, element):
+
+        elements = []
+
+        key_frame = self.frames.read(0)
+        contours = element.detect(key_frame)
+
+        for i in tqdm(range(self.length)):
+
+            frame = self.frames.read(i)
+            mse = frame.metrics.mse(key_frame)
+
+            if mse > 1500:
+                key_frame = frame
+                contours = element.detect(key_frame)
+
             if contours:
                 elements.append((i, contours))
 
