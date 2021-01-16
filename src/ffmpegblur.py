@@ -41,8 +41,8 @@ def _calc_size(values_dict, start_name, end_name, size_name):
 
     return start, size
 
-
 def blur_softly(matrix: List[Dict[str, Any]], video_in, video_out=""):
+
     """ Запускает обработку видео через ffmpeg
 
     Обработываемых областей может быть несколько, они могут пересекаться по координатам и времени.
@@ -112,4 +112,7 @@ def blur_softly(matrix: List[Dict[str, Any]], video_in, video_out=""):
                            preset='fast',
                            tune='stillimage')
 
+    print(' '.join(ffmpeg.compile(output)))
     ffmpeg.run(output, overwrite_output=True)
+
+

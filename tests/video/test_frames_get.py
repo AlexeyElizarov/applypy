@@ -6,13 +6,13 @@ from helpers import TestFileHelper
 
 class TestFrames(unittest.TestCase, TestFileHelper):
 
-    def test_read(self):
+    def test_get_frame(self):
 
         path = self._test_file('test_video_write.mp4')
         frame_num = 128
 
         with Video(path) as video:
-            frame = video.frames.read(frame_num)
+            frame = video.frames.get(frame_num)
 
         frame = frame.mode.to_greyscale()
 

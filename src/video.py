@@ -25,38 +25,54 @@ class Video:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.cap.release()
 
-    def detect(self, element):
+    def _detect(self, element):
 
+        frames = []
         elements = []
 
-        for i in tqdm(range(self.length)):
+        while True:
+            ret, frame = self.cap.read()
 
-            frame = self.frames.read(i)
+            if ret:
+                frames.append(Image(frame))
+            else:
+                break
+
+        for frame in frames:
+
             contours = element.detect(frame)
-
-            if contours:
-                elements.append((i, contours))
+            elements.append((frame, contours))
 
         return elements
 
-    def _detect(self, element):
+    def detect(self, element):
 
+        frames = []
         elements = []
 
-        key_frame = self.frames.read(0)
+        while True:
+            ret, frame = self.cap.read()
+
+            if ret:
+                frames.append(Image(frame))
+            else:
+                break
+
+        key_frame = frames[0]
         contours = element.detect(key_frame)
+        hist0 = key_frame.metrics.histogram('L')
 
-        for i in tqdm(range(self.length)):
+        for frame in frames:
 
-            frame = self.frames.read(i)
-            mse = frame.metrics.mse(key_frame)
+            hist = frame.metrics.histogram('L')
+            dist = hist.compare(hist0)
 
-            if mse > 1500:
+            if dist > 20000:
                 key_frame = frame
                 contours = element.detect(key_frame)
+                hist0 = hist
 
-            if contours:
-                elements.append((i, contours))
+            elements.append((frame, contours))
 
         return elements
 
@@ -101,6 +117,24 @@ class Video:
 
         with Writer(path, codec, framerate, dimension) as vw:
             vw.write(frames)
+
+    def read(self):
+        """
+        Reads all frames from the video file.
+        :return: List of Image objects.
+        """
+
+        frames = []
+
+        while True:
+            ret, frame = self.cap.read()
+
+            if ret is False:
+                break
+
+            frames.append(Image(frame))
+
+        return frames
 
 
 class Writer:

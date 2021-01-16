@@ -1,4 +1,5 @@
-from cv2 import cvtColor, COLOR_BGR2GRAY, GaussianBlur, rectangle, drawContours, circle
+from cv2 import cvtColor, COLOR_BGR2GRAY, GaussianBlur, rectangle, drawContours, circle, calcHist
+from histogram import Histogram
 from skimage.metrics import mean_squared_error
 
 
@@ -11,9 +12,9 @@ class BaseHandler:
 
 class FrameHandler(BaseHandler):
 
-    def read(self, frame_num):
+    def get(self, frame_num):
         """
-        Reads a frame from the video file by its number.
+        Gets a single frame from the video file by its number.
         :return: Image object
         """
 
@@ -170,13 +171,30 @@ class ImageMode(BaseHandler):
 
 class ImageMetrics(BaseHandler):
 
-    def mse(self, image) -> float:
+    def histogram(self, channels):
+        """
+        Returns Histogram object
+        :param channels: color channel to build histogram. Could be R for red, G for green, B for blue,
+        L for luminosity (greyscale).
+        :return: Histogram object
+        """
+        return Histogram(self._obj, channels)
+
+    def mse(self, image, roi) -> float:
 
         """
         Compute the mean-squared error between two images.
         :param image: Image to compare, must have same shape.
         :return: the mean-squared error (MSE) metric.
         """
+
+        img1 = self._obj
+        img2 = image
+
+        if roi:
+            x_roi, y_roi = roi
+            img1 = self._obj.set_roi(self._obj.width * x_roi, self._obj.height * y_roi)
+            img2 = image.set_roi(image.width * x_roi, image.height * y_roi)
 
         img1 = self._obj.mode.to_greyscale()
         img2 = image.mode.to_greyscale()

@@ -2,11 +2,11 @@ import time
 import unittest
 
 from elements import TelegramNotificationElement
-from helpers import TestFileHelper
+from helpers import TestFileHelper, profile
 from video import Video
 
 
-class TestPerformanceFindContours(unittest.TestCase, TestFileHelper):
+class TestPerformanceFindContours(TestFileHelper):
 
     def test_performance(self):
 
@@ -15,6 +15,7 @@ class TestPerformanceFindContours(unittest.TestCase, TestFileHelper):
 
         print(t0, t1, ((t1 - t0)/t0) * 100)
 
+    @profile
     def initial(self):
 
         path = self._test_file('test_perf_roi.mp4')
@@ -27,11 +28,11 @@ class TestPerformanceFindContours(unittest.TestCase, TestFileHelper):
 
         return end - start
 
+    @profile
     def improved(self):
 
         path = self._test_file('test_perf_roi.mp4')
         element = TelegramNotificationElement()
-        element._ROI = 0.5, 0.5
 
         with Video(path) as video:
             start = time.time()
@@ -40,5 +41,7 @@ class TestPerformanceFindContours(unittest.TestCase, TestFileHelper):
 
         return end - start
 
+
 if __name__ == '__main__':
-    unittest.main()
+    test = TestPerformanceFindContours()
+    test.improved()

@@ -133,8 +133,9 @@ def write(path: str, image) -> bool:
 
     dir_name = dirname(path)
 
-    if not exists(dir_name):
-        mkdir(dir_name)
+    if dir_name:
+        if not exists(dir_name):
+            mkdir(dir_name)
 
     ext = splitext(path)[1]
     retcode, nbuffer = cv2.imencode(ext, image)

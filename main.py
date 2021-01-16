@@ -11,30 +11,32 @@ def baseline(input_video, output_video):
 
     with Video(input_video) as video:
         frames = []
+        print('detect')
         elements = video.detect(element)
-        # elements is the list of tuples of frame number and element contour
+        # elements is the list of tuples of frame and element contour
 
+        print('apply filter')
         for element in elements:
 
-            frame_num, contours = element
-            frame = video.frames.read(frame_num)
+            frame, contours = element
 
             for contour in contours:
                 x, y, w, h = contour.rectangle
                 region = (x, y), (x + w, y + h)
-                frame = frame.filter.blur(kernel_size=(99, 99), sigma_x=0, region=region)
+                frame = frame.filter.blur.gaussian(kernel_size=(99, 99), sigma_x=0, region=region)
 
-            frames.append((frame_num, frame))
+            frames.append(frame)
 
         # frames is the list of tuples of frame number and frame to be replaced in the input video
         # TODO: video.write() to be implemented
-        video.write(output_video, frames, codec=video.codec, bitrate=video.framerate, dimension=video.dimension)
+        print('write')
+        video.write(frames, output_video, codec=video.codec, framerate=video.framerate, dimension=video.dimension)
 
 
 if __name__ == '__main__':
 
-    video_in = r"D:\Videos\Screenbits\SAP Summit 2020\Stocks\_tests\contours\test_contours_02.mp4"
-    video_out = r"D:\Videos\Screenbits\SAP Summit 2020\Stocks\_tests\contours\test_contours_02_out.mp4"
+    video_in = r"D:\Videos\Screenbits\SAP Summit 2020\Stocks\_tests\contours\test_contours_03.mp4"
+    video_out = r"D:\Videos\Screenbits\SAP Summit 2020\Stocks\_tests\contours\test_contours_03_out.mp4"
 
     baseline(video_in, video_out)
 
