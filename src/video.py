@@ -109,7 +109,6 @@ class Video:
         return Image(image)
 
     def write(self, frames, path, codec=None, framerate=None, dimension=None):
-        # raise NotImplementedError
 
         codec = codec if codec else self.codec
         framerate = framerate if framerate else self.framerate
